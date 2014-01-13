@@ -10,8 +10,8 @@ if(!isset($params[1])){
 	echo "Usage myhosts [<action>] <hostname> [<ip>]\n";
 	die();
 }
-$action = isset($params[1]) && isset($params[2])?$params[1]:'add';
-$hostname = isset($params[2])?$params[2]:$params[1];
+$action = isset($params[1]) && isset($params[2])?$params[1]:($params[1]=="list"?"list":'add');
+$hostname = isset($params[2])?$params[2]:($params[1]=="list"?"":$params[1]);
 $ip = isset($params[3])?$params[3]:DEFAULT_IP_ADDRESS;
 
 $hosts_str = file_get_contents(HOSTSFILE);
@@ -25,19 +25,20 @@ $hosts_modified_array = explode("\n",$hosts_modified);
 
 switch($action){
 	case "add" :
-	$hosts_modified_array[] = $ip." ".$hostname."\n";
+		$hosts_modified_array[] = $ip." ".$hostname."\n";
+		array_unshift($hosts_modified_array,"#".SECTIONSTART);
+		$hosts_modified_array[].="#".SECTIONEND;
+		$hosts_modified = implode("\n",$hosts_modified_array);
+		$hosts_new = $hosts_original."\n".$hosts_modified;
+		$f = fopen(HOSTSFILE,"w");
+		fwrite($f,$hosts_new);
+		fclose($f);
+	break;
+	case "list":
+		foreach($hosts_modified_array as $h){
+			echo $h."\n";
+		}
 	break;
 }
-print_r($hosts_modified);
-array_unshift($hosts_modified_array,"#".SECTIONSTART);
-$hosts_modified_array[].="#".SECTIONEND;
-$hosts_modified = implode("\n",$hosts_modified_array);
-
-$hosts_new = $hosts_original."\n".$hosts_modified;
-
-
-$f = fopen(HOSTSFILE,"w");
-fwrite($f,$hosts_new);
-fclose($f);
 
 echo "\naction : $action , hostname : $hostname , ip = $ip \n";
