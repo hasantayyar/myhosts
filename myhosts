@@ -28,7 +28,9 @@ switch($action){
 		$hosts_modified_array[] = $ip." ".$hostname;
 		array_unshift($hosts_modified_array,"#".SECTIONSTART);
 		$hosts_modified_array[].="#".SECTIONEND;
+		$hosts_modified_array	= array_filter($hosts_modified_array,function($var){return !empty($var) && strlen($var)>0 && ($var != "\n");});
 		$hosts_modified = implode("\n",$hosts_modified_array);
+		print_r($hosts_modified_array);
 		$hosts_new = $hosts_original."\n".$hosts_modified;
 		$f = fopen(HOSTSFILE,"w");
 		fwrite($f,$hosts_new);
