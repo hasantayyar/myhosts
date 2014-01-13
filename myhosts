@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+define("DEFAULT_IP_ADDRESS","127.0.0.1");
+
+$params = $argv;
+if(!isset($params[1])){
+	echo "Usage myhosts [<action>] <hostname> [<ip>]\n";
+	die();
+}
+$action = isset($params[1]) && isset($params[2])?$params[1]:'add';
+$hostname = isset($params[2])?$params[2]:$params[1];
+$ip = isset($params[3])?$params[3]:DEFAULT_IP_ADDRESS;
+
+
+echo "action : $action , hostname : $hostname , ip = $ip \n";
