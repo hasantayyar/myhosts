@@ -1,0 +1,26 @@
+{
+    "name": "hasantayyar/myhosts",
+    "type": "project",
+    "description": "A small tool to manage hosts entries",
+    "keywords": ["tool","network", "application"],
+    "homepage": "https://github.com/hasantayyar/myhosts",
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "hasantayyar",
+            "homepage": "http://hasantayyar.net",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/hasantayyar/myhosts",
+        "source": "https://github.com/hasantayyar/myhosts/issues"
+    },
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "scripts": { 
+    	"post-install-cmd" : ["myhosts install"],
+    	"post-update-cmd" : ["myhosts update"]
+    }
+}
