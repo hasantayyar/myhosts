@@ -15,7 +15,10 @@ $hostname = isset($params[2])?$params[2]:$params[1];
 $ip = isset($params[3])?$params[3]:DEFAULT_IP_ADDRESS;
 
 $hosts_str = file_get_contents(HOSTSFILE);
-preg_match("#\# ".SECTIONSTART."\n(.*)\n\# ".SECTIONEND."#i",$hosts_str,$match);
+$pattern = "/\#".SECTIONSTART."(.*)\#".SECTIONEND."/is";
+
+preg_match($pattern,$hosts_str,$match);
+
 $hosts_modified = isset($match[1])?$match[1]:"";
 $hosts_original = isset($match[0])?str_replace($match[0],"",$hosts_str):$hosts_str;
 $hosts_modified_array = explode("\n",$hosts_modified);
@@ -25,10 +28,16 @@ switch($action){
 	$hosts_modified_array[] = $ip." ".$hostname."\n";
 	break;
 }
-array_unshift($hosts_modified_array,"# ".SECTIONSTART);
-$hosts_modified_array[].="# ".SECTIONEND;
+print_r($hosts_modified);
+array_unshift($hosts_modified_array,"#".SECTIONSTART);
+$hosts_modified_array[].="#".SECTIONEND;
 $hosts_modified = implode("\n",$hosts_modified_array);
 
-print_r($hosts_modified);
+$hosts_new = $hosts_original."\n".$hosts_modified;
 
-echo "action : $action , hostname : $hostname , ip = $ip \n";
+
+$f = fopen(HOSTSFILE,"w");
+fwrite($f,$hosts_new);
+fclose($f);
+
+echo "\naction : $action , hostname : $hostname , ip = $ip \n";
