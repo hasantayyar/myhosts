@@ -25,7 +25,7 @@ $hosts_modified_array = explode("\n",$hosts_modified);
 
 switch($action){
 	case "add" :
-		$hosts_modified_array[] = $ip." ".$hostname."\n";
+		$hosts_modified_array[] = $ip." ".$hostname;
 		array_unshift($hosts_modified_array,"#".SECTIONSTART);
 		$hosts_modified_array[].="#".SECTIONEND;
 		$hosts_modified = implode("\n",$hosts_modified_array);
