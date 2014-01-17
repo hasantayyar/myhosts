@@ -25,6 +25,7 @@ $hosts_modified_array = explode("\n",$hosts_modified);
 
 switch($action){
 	case "add" :
+		echo "\e[0;30;42mAdding ".$ip." ".$hostname."\e[0m\n";
 		$hosts_modified_array[] = $ip." ".$hostname;
 		array_unshift($hosts_modified_array,"#".SECTIONSTART);
 		$hosts_modified_array[].="#".SECTIONEND;
@@ -37,6 +38,7 @@ switch($action){
 		fclose($f);
 	break;
 	case "list":
+		echo "\e[0;30;42mListing\e[0m\n";
 		foreach($hosts_modified_array as $h){
 			echo $h."\n";
 		}
