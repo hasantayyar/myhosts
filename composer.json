@@ -13,8 +13,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/hasantayyar/myhosts",
-        "source": "https://github.com/hasantayyar/myhosts/issues"
+        "issues": "https://github.com/hasantayyar/myhosts/issues",
+        "source": "https://github.com/hasantayyar/myhosts"
     },
     "require": {
         "php": ">=5.3.0"
