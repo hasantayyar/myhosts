@@ -31,7 +31,6 @@ switch($action){
 		$hosts_modified_array[].="#".SECTIONEND;
 		$hosts_modified_array	= array_filter($hosts_modified_array,function($var){return !empty($var) && strlen($var)>0 && ($var != "\n");});
 		$hosts_modified = implode("\n",$hosts_modified_array);
-		print_r($hosts_modified_array);
 		$hosts_new = $hosts_original."\n".$hosts_modified;
 		$f = fopen(HOSTSFILE,"w");
 		fwrite($f,$hosts_new);
@@ -42,6 +41,27 @@ switch($action){
 		foreach($hosts_modified_array as $h){
 			echo $h."\n";
 		}
+	break;
+	case "delete":
+		echo "\033[41;30mDeleting $hostname \033[40;37m\r\n";
+                for($i=0;$i<count($hosts_modified_array)-1;$i++){
+			$hma = explode(" ",$hosts_modified_array[$i]);
+			if(isset($hma[1])){
+				unset($hosts_modified_array[$i]);
+			}
+		}
+		array_unshift($hosts_modified_array,"#".SECTIONSTART);
+                $hosts_modified_array[].="#".SECTIONEND;
+                $hosts_modified_array   = array_filter($hosts_modified_array,function($var){return !empty($var) && strlen($var)>0 && ($var != "\n");});
+
+		$hosts_modified = implode("\n",$hosts_modified_array);
+                $hosts_new = $hosts_original."\n".$hosts_modified;
+                $f = fopen(HOSTSFILE,"w");
+                fwrite($f,$hosts_new);
+                fclose($f);
+
+	break;
+	default:
 	break;
 }
 
